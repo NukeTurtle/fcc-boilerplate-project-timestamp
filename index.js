@@ -1,12 +1,10 @@
-// index.js
-// where your node app starts
-
 // init project
+require('dotenv').config(); 
 var express = require('express');
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
-// so that your API is remotely testable by FCC 
+// so that API is remotely testable by FCC 
 var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
 
@@ -18,12 +16,27 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/api/:date", (req, res) => {
+  let dateString = req.params.date;
+  console.log("dateString: ",dateString)
+  if (/\d{5,}/.test(dateString)) {
+    let dateInt = parseInt(dateString);
+    res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
+  } else {
+      let dateObject = new Date(dateString);
 
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+       if (dateObject.toString() === "Invalid Date") {
+        res.json({ error: "Invalid Date" });
+      } else {
+        res.json({ unix: dateObject.valueOf(), utc: dateObject.toUTCString() });
+      }
+  }
 });
 
+app.get("/api", (req, res) => {
+  let date = new Date();
+  res.json({unix: date.valueOf(), utc: date.toUTCString() });
+})
 
 
 // Listen on port set in environment variable or default to 3000
