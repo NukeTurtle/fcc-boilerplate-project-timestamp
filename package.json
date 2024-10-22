@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/freeCodeCamp/boilerplate-project-timestamp.git"
+    "url": "git+https://github.com/NukeTurtle/fcc-boilerplate-project-timestamp.git"
   },
   "bugs": {
     "url": "https://github.com/freeCodeCamp/freeCodeCamp/issues"
